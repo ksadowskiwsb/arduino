@@ -1,0 +1,38 @@
+#include <Wire.h> 
+#include <LiquidCrystal_I2C.h>
+#include "DHT.h"
+
+DHT dht;
+
+// Set the LCD address to 0x27 for a 16 chars and 2 line display
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+void setup()
+{
+  Serial.begin(9600);
+  dht.setup(2);
+  
+	// initialize the LCD
+	lcd.begin();
+
+	// Turn on the blacklight and print a message.
+	lcd.backlight();
+}
+
+void loop()
+{
+	//delay(dht.getMinimumSamplingPeriod());
+  delay(2000);
+
+  float humidity = dht.getHumidity();
+  float temperature = dht.getTemperature();
+
+  lcd.setCursor(0,0);
+  lcd.print("w: ");
+  lcd.print(humidity);
+  lcd.print(" %");
+  lcd.setCursor(0,1);
+  lcd.print("t: ");
+  lcd.print(temperature);
+  lcd.print(" C");
+}
